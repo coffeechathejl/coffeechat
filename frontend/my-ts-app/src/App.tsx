@@ -1,18 +1,17 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css'
-import HomePage from './pages/homepage'
-import HelloWorld from './pages/helloworld';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Home from './pages/homepage'
+import Profile from './pages/profile'
 
 function App() {
-
-  return (
-    <Routes>
-      <Route path="/" element={<HomePage onClick={() => console.log('Clicked!')} />} />
-      <Route path="/helloworld" element={<HelloWorld />} />
-    </Routes>
-
-
-  )
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route index element={<Home />} />
+                <Route path="profile" element={<Profile />} />
+            </Routes>
+        </BrowserRouter>
+    )
 }
 
 export default App
