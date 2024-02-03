@@ -47,7 +47,7 @@ def compare_profiles(profile1_path, profile2_path):
     else:
         return "Low Match"
 
-if __name__ == "__main__":
-    profile1_path = "./backend/jsonprofiles/ethanwhitcher.json"
-    profile2_path = "./backend/jsonprofiles/laurenlidhar.json"
-    print(compare_profiles(profile1_path, profile2_path))
+# if __name__ == "__main__":
+#     profile1_path = "./backend/jsonprofiles/ethanwhitcher.json"
+#     profile2_path = "./backend/jsonprofiles/laurenlidhar.json"
+#     print(compare_profiles(profile1_path, profile2_path))
