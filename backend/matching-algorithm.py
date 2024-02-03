@@ -37,8 +37,8 @@ def compare_profiles(profile1_path, profile2_path):
     cosine_sim = cosine_similarity(vectorizer)
 
     # Display the similarity matrix
-    print("Cosine Similarity Matrix:")
-    print(cosine_sim[1,0])
+    # print("Cosine Similarity Matrix:")
+    # print(cosine_sim[1,0])
 
     if cosine_sim[1,0] >= 0.1:
         return "Strong Match"
