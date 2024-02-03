@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
   res.status(200).send();
 });
 
-app.get("/getProfile/:name", (req, res) => {
+app.get("/createProfileEntry/:name", (req, res) => {
   const name = req.params.name;
 
   // Spawn the Python script with arguments
@@ -28,18 +28,19 @@ app.get("/getProfile/:name", (req, res) => {
   // Handle Python script completion
   pythonProcess.on("close", (code) => {
     if (code === 0) {
-      console.log(`Python script completed successfully`);
-      res.status(200).send(`Python script output: ${responseData}`);
+      // convert responseData to JSON
+      responseData = JSON.parse(responseData);
+
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify(responseData));
     } else {
-      console.error(`Error executing Python script. Exit code: ${code}`);
       res.status(500).send(`Error executing Python script. Exit code: ${code}`);
     }
   });
 
   // Handle errors
   pythonProcess.stderr.on("data", (data) => {
-    console.log(`Python script error: ${data}`);
-    res.status(500).send(`Python script error: ${data}`);
+    res.status(500).send(`Error: ${data}`);
   });
 });
 
