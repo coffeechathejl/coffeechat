@@ -1,5 +1,6 @@
 const http = require("http");
 const express = require("express");
+const bodyParser = require("body-parser");
 const { spawn } = require("child_process");
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
@@ -7,8 +8,11 @@ require("dotenv").config();
 const hostname = "127.0.0.1";
 const port = 3000;
 const uri = process.env.MONGO_URI;
+const jsonParser = bodyParser.json();
 
 const app = express();
+
+
 
 async function insertDocument(documentToInsert) {
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -16,7 +20,7 @@ async function insertDocument(documentToInsert) {
   try {
       await client.connect();
       const database = client.db("users");
-      const collection = database.collection("students");
+      const collection = database.collection("users");
       const result = await collection.insertOne(documentToInsert);
 
       console.log(`Document inserted with _id: ${result.insertedId}`);
@@ -30,8 +34,17 @@ app.get("/", (req, res) => {
   res.status(200).send();
 });
 
-app.get("/createProfileEntry/:name", async (req, res) => {
-  const name = req.params.name;
+app.post("/createProfileEntry", jsonParser, async (req, res) => {
+  /* 
+  required input
+  {
+    "id": "",
+    "entryType": "",
+    "personalInfo": {},
+    "contactInfo": {},
+  }
+  */
+  const name = req.body.id;
 
   // Spawn the Python script with arguments
   // process.env.PYTHONPATH = "/opt/local/bin/python3"
@@ -49,6 +62,11 @@ app.get("/createProfileEntry/:name", async (req, res) => {
     if (code === 0) {
       // convert responseData to JSON
       responseData = JSON.parse(responseData);
+
+      // add body data to responseData
+      responseData.personalInfo = req.body.personalInfo;
+      responseData.contactInfo = req.body.contactInfo;
+      responseData.entryType = req.body.entryType;
 
       res.setHeader('Content-Type', 'application/json');
 
@@ -77,7 +95,6 @@ app.get("/createProfileEntry/:name", async (req, res) => {
     res.status(500).send(`Error: ${data}`);
   });
 });
-
 
 const server = http.createServer(app);
 
