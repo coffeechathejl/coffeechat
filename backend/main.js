@@ -12,16 +12,18 @@ const jsonParser = bodyParser.json();
 
 const app = express();
 
-
-
 async function insertDocument(documentToInsert) {
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
   try {
       await client.connect();
       const database = client.db("users");
-      const collection = database.collection("users");
+      const collection = database.collection("users");  
       const result = await collection.insertOne(documentToInsert);
+      if (documentToInsert.entryType === "mentor") {
+        const mentorCollection = database.collection("mentors");
+        await mentorCollection.insertOne({ mentorId: documentToInsert.public_id });
+      }
 
       console.log(`Document inserted with _id: ${result.insertedId}`);
       return result;
