@@ -8,34 +8,34 @@ const UserProfile = () => {
   const [profileData, setProfileData] = useState(null);
 
     useEffect(() => {
-      const handleCreateProfile = () => {
-        const formData = {
-          "id": "hashir-sami",
-          "loginId": user?.sub,
-          "entryType": "student",
-          "personalInfo": {
-              "pronouns": "he/him",
-              "gender": "male",
-              "genderMatch": null,
-              "areaOfInterest": "Computer Science"
-          },
-          "contactInfo": {
-              "email": "yoloswag22@gmail.com",
-              "phoneNumber": "4168400891",
-              "github": "hashir103"
-          }
-        };
+      // const handleCreateProfile = () => {
+      //   const formData = {
+      //     "id": "hashir-sami",
+      //     "loginId": user?.sub,
+      //     "entryType": "student",
+      //     "personalInfo": {
+      //         "pronouns": "he/him",
+      //         "gender": "male",
+      //         "genderMatch": null,
+      //         "areaOfInterest": "Computer Science"
+      //     },
+      //     "contactInfo": {
+      //         "email": "yoloswag22@gmail.com",
+      //         "phoneNumber": "4168400891",
+      //         "github": "hashir103"
+      //     }
+      //   };
 
-        axios.post("http://127.0.0.1:3000/createProfileEntry", formData)
-          .then(response => {
-            // Update state with the response data
-            setProfileData(response.data);
-          })
-          .catch(error => {
-            // Handle the error response here
-            console.error("Error creating profile entry:", error);
-          });
-      };
+      //   axios.post("http://127.0.0.1:3000/createProfileEntry", formData)
+      //     .then(response => {
+      //       // Update state with the response data
+      //       setProfileData(response.data);
+      //     })
+      //     .catch(error => {
+      //       // Handle the error response here
+      //       console.error("Error creating profile entry:", error);
+      //     });
+      // };
 
       const handleGetProfile = () => {
         axios.get("http://127.0.0.1:3000/getProfileEntry", {
@@ -46,8 +46,11 @@ const UserProfile = () => {
         .then(response => {
           const output = response.data;
           if (output === "") {
-            // If profile entry doesn't exist, create it
-            handleCreateProfile();
+          // If profile entry doesn't exist, create it
+            const uid = user?.sub;
+            window.location.href = `/form?variable=${uid}`;
+            // window.location.href = `/form`;
+            // handleCreateProfile();
           } else {
             // Update state with the existing profile data
             setProfileData(output);

@@ -1,6 +1,8 @@
 import "./form.css"
 import { useState } from "react";
 import React from "react";
+import axios from 'axios';
+
 
 type FormProps = {};
 
@@ -14,22 +16,62 @@ type FormProps = {};
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [github, setGithub] = useState('');
+
+    const [profileData] = useState(null);
     
-    const handleSubmit = (event: React.FormEvent) => {
+
+    const handleSubmit = async (event: React.FormEvent) => {
       event.preventDefault();
 
-      console.log('Form data submitted:', {
-        linkedinUrl,
-        entryType,
-        pronouns,
-        gender,
-        genderMatch,
-        areaOfInterest,
-        email,
-        phoneNumber,
-        github,
-      });
-    };
+      const urlParams = new URLSearchParams(window.location.search);
+      const receivedVariable = urlParams.get('variable');
+        const newFormData = {
+          "id": linkedinUrl,
+          "loginId": receivedVariable,
+          "entryType": entryType, // Assuming userType is a state variable
+          "personalInfo": {
+            "pronouns": pronouns, // Assuming pronouns is a state variable
+            "gender": gender, // Assuming gender is a state variable
+            "genderMatch": genderMatch, // Assuming genderMatch is a state variable
+            "areaOfInterest": areaOfInterest // Assuming areaOfInterest is a state variable
+          },
+          "contactInfo": {
+            "email": email, // Assuming email is a state variable
+            "phoneNumber": phoneNumber, // Assuming phoneNumber is a state variable
+            "github": github // Assuming github is a state variable
+          }
+        };
+        console.log(newFormData);
+  
+        try {
+          axios.post("http://127.0.0.1:3000/createProfileEntry", newFormData)
+            .then(() => {
+              // Update state with the response data
+              window.location.href = "/profile";
+          })
+          .catch(error => {
+            // Handle the error response here
+            console.error("Error creating profile entry:", error);
+          });
+        } catch (error) {
+          console.log(error)
+        }
+        
+
+    }
+
+    //   console.log('Form data submitted:', {
+    //     linkedinUrl,
+    //     entryType,
+    //     pronouns,
+    //     gender,
+    //     genderMatch,
+    //     areaOfInterest,
+    //     email,
+    //     phoneNumber,
+    //     github,
+    //   });
+    // };
 
 
     return (
@@ -38,7 +80,7 @@ type FormProps = {};
       <div className="form-container">
         <label>
           LinkedIn URL:‎ ‎ ‎ ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  
-          <input type="url" value={linkedinUrl} onChange={(e) => setLinkedinUrl(e.target.value)} />
+          <input type="text" value={linkedinUrl} onChange={(e) => setLinkedinUrl(e.target.value)} />
         </label>
        
 
@@ -114,4 +156,3 @@ type FormProps = {};
     )
 
 };
-
