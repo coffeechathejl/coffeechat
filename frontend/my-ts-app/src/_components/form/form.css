@@ -5,11 +5,14 @@ html, body {
 
 .form-container {
     display: flex;
+    padding: 2%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 150px auto; 
     max-width: 400px;
+    border: 2px solid #FFF5E5;
+    border-radius: 5%;
   }
 
 .form-container label {
@@ -28,7 +31,7 @@ html, body {
     margin-bottom: 12px;
     background-color: transparent;
     border: 2px solid #FFF5E5;
-    border-radius: 20px;
+    border-radius: 7px;
 }
 
 .submit-button {
@@ -36,20 +39,16 @@ html, body {
     color: #FFF5E5;
     font-weight: bold;
     font-size: 17px;
-    text-decoration: underline;
     transition: transform 0.1s ease;
 
     width: 175px;
     height: 40px;
 
-    position: absolute;
-    top: 580px;
-    left: 630px;
-
     padding: 2px;
 
     border-radius: 20px;
-    border: none;
+
+    margin-top: 3%;
 
 }
 
@@ -58,5 +57,5 @@ html, body {
 }
 
 .submit-button:hover {
-    transform: scale(1.5);
+    text-decoration: underline;
 }

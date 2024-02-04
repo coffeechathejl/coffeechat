@@ -2,6 +2,7 @@
 import { LogoutOptions, useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { BeatLoader } from 'react-spinners'; // Import the desired loader from react-spinners
 
 const UserProfile = () => {
   const { user, isAuthenticated, isLoading, logout } = useAuth0();
@@ -68,7 +69,10 @@ const UserProfile = () => {
     }, [user, isAuthenticated, isLoading]);
 
     if (isLoading) {
-      return <div>Loading LinkedIn Information...</div>;
+      return <div id="loading">
+      <div>Loading LinkedIn Information</div>
+      <BeatLoader color="#ffffff" loading={isLoading} size={15} />
+      </div>
     }
 
     if (!isAuthenticated) {
@@ -82,13 +86,15 @@ const UserProfile = () => {
         {profileData ? (
           <>
             <h2>Profile</h2>
-            <button onClick={() => logout({ returnTo: window.location.origin } as LogoutOptions)}>Log Out</button><br /><br />
+            <button onClick={() => logout({ returnTo: window.location.origin } as LogoutOptions)}>Log Out</button>            <button>Find Match</button><br /><br />
             <h1>{profileData["firstName"]} {profileData["lastName"]}</h1>
             {JSON.stringify(profileData, null, 2)}
-            <button>Find Match</button>
            </> 
         ) : (
-          <div>Getting profile data..</div>
+          <div id="loading">
+          <div>Getting Profile Data</div>
+          <BeatLoader color="#ffffff" loading={!profileData} size={15} />
+          </div>
         )}
       </>
     );
