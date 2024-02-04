@@ -1,18 +1,17 @@
-import { useState } from 'react'
 import './App.css'
-import './welcome'
-import Welcome from './welcome'
-import ProfileConfig from './profile-config'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Home from './pages/homepage'
+import Profile from './pages/profile'
 
 function App() {
-
-  return (
-    <>
-      <div>
-        < ProfileConfig />
-      </div>
-    </>
-  )
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route index element={<Home />} />
+                <Route path="profile" element={<Profile />} />
+            </Routes>
+        </BrowserRouter>
+    )
 }
 
 export default App
