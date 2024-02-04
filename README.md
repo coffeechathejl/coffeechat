@@ -25,3 +25,15 @@ We are proud of developing a complex technical project that had a diverse tech s
 - Further develop UI
 - Expand by adding additional features
 - Improve efficiency in algorithms
+
+## how to run
+1. Follow the readme.MD in backend and install required dependancies (cors, express, linkedInAPI (python 3rd party one). Note: No package.json so you'll have to keep testing the run until it works.
+2. Follow the readme.MD in frontend and install required dependancies. Vite and React required.
+
+   Backend execution:
+   cd backend
+   node main.js
+
+   Frontend execution:
+   cd frontend/my-ts-app
+   npm run dev
