@@ -85,9 +85,10 @@ const UserProfile = () => {
             <button onClick={() => logout({ returnTo: window.location.origin } as LogoutOptions)}>Log Out</button><br /><br />
             <h1>{profileData["firstName"]} {profileData["lastName"]}</h1>
             {JSON.stringify(profileData, null, 2)}
+            <button>Find Match</button>
            </> 
         ) : (
-          <p>Getting profile data..</p>
+          <div>Getting profile data..</div>
         )}
       </>
     );
