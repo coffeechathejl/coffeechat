@@ -154,3 +154,16 @@ h5 {
     justify-content: space-between;
     align-items: center; /* Optional: align items vertically */
 }
+
+#logOutBtn {
+    margin-left: 5%;
+    margin-top: 5%;
+    border-color: #494331;
+    border-width: 4px;
+    background-color: #494331;
+}
+
+#logOutBtn:hover {
+    background-color: #252218;
+    ::view-transition{ background-color: 0.5s};
+}
