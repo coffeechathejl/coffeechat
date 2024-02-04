@@ -49,4 +49,6 @@ button:focus-visible {
 body {
   font-family: Arial, Helvetica, sans-serif;
   overflow: scroll;
+body {
+  background-color: #1E1E1E;
 }
