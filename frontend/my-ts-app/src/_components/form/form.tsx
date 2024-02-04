@@ -1,6 +1,8 @@
 import "./form.css"
 import { useState } from "react";
 import React from "react";
+import axios from 'axios';
+
 
 type FormProps = {};
 
@@ -14,22 +16,65 @@ type FormProps = {};
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [github, setGithub] = useState('');
+
+    const [profileData, setProfileData] = useState(null);
     
-    const handleSubmit = (event: React.FormEvent) => {
+
+    const handleSubmit = async (event: React.FormEvent) => {
       event.preventDefault();
 
-      console.log('Form data submitted:', {
-        linkedinUrl,
-        entryType,
-        pronouns,
-        gender,
-        genderMatch,
-        areaOfInterest,
-        email,
-        phoneNumber,
-        github,
-      });
-    };
+      //const urlParams = new URLSearchParams(window.location.search);
+      //const receivedVariable = urlParams.get('variable');
+        const newFormData = {
+          "id": "ethanwhitcher",
+          //"loginId": receivedVariable,
+          "entryType": entryType, // Assuming userType is a state variable
+          "personalInfo": {
+            "pronouns": pronouns, // Assuming pronouns is a state variable
+            "gender": gender, // Assuming gender is a state variable
+            "genderMatch": genderMatch, // Assuming genderMatch is a state variable
+            "areaOfInterest": areaOfInterest // Assuming areaOfInterest is a state variable
+          },
+          "contactInfo": {
+            "linkedinUrl": linkedinUrl, // Assuming linkedinUrl is a state variable
+            "email": email, // Assuming email is a state variable
+            "phoneNumber": phoneNumber, // Assuming phoneNumber is a state variable
+            "github": github // Assuming github is a state variable
+          }
+        };
+        console.log(newFormData);
+  
+        try {
+          axios.post("http://127.0.0.1:3000/createProfileEntry", newFormData)
+            .then(response => {
+            // Update state with the response data
+              setProfileData(response.data);
+          })
+          .catch(error => {
+            // Handle the error response here
+            console.error("Error creating profile entry:", error);
+          });
+        } catch (error) {
+          console.log(error)
+        }
+  
+
+
+
+    }
+
+    //   console.log('Form data submitted:', {
+    //     linkedinUrl,
+    //     entryType,
+    //     pronouns,
+    //     gender,
+    //     genderMatch,
+    //     areaOfInterest,
+    //     email,
+    //     phoneNumber,
+    //     github,
+    //   });
+    // };
 
 
     return (
@@ -114,4 +159,3 @@ type FormProps = {};
     )
 
 };
-
