@@ -43,7 +43,7 @@ def compare_profiles(profile1_path, profile2_path):
     if cosine_sim[1,0] >= 0.1:
         return "Strong Match"
     elif cosine_sim[1,0] > 0.05 and cosine_sim[1,0] < 0.1:
-        return "Weak Match"
+        return "Medium Match"
     else:
         return "Low Match"
 
