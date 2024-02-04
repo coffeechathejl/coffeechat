@@ -20,10 +20,6 @@ async function insertDocument(documentToInsert) {
       const database = client.db("users");
       const collection = database.collection("users");  
       const result = await collection.insertOne(documentToInsert);
-      if (documentToInsert.entryType === "mentor") {
-        const mentorCollection = database.collection("mentors");
-        await mentorCollection.insertOne({ mentorId: documentToInsert.public_id });
-      }
 
       console.log(`Document inserted with _id: ${result.insertedId}`);
       return result;
@@ -40,7 +36,8 @@ app.post("/createProfileEntry", jsonParser, async (req, res) => {
   /* 
   required input
   {
-    "id": "",
+    "id": "", <---- referring to the linkedin url
+    "loginId": "" <--- referring to the auth0 login
     "entryType": "",
     "personalInfo": {},
     "contactInfo": {},
@@ -69,6 +66,7 @@ app.post("/createProfileEntry", jsonParser, async (req, res) => {
       responseData.personalInfo = req.body.personalInfo;
       responseData.contactInfo = req.body.contactInfo;
       responseData.entryType = req.body.entryType;
+      responseData.loginId = req.body.loginId;
 
       res.setHeader('Content-Type', 'application/json');
 
@@ -96,6 +94,43 @@ app.post("/createProfileEntry", jsonParser, async (req, res) => {
   pythonProcess.stderr.on("data", (data) => {
     res.status(500).send(`Error: ${data}`);
   });
+});
+
+app.get("/getProfileEntry", async (req, res) => {
+  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+  try {
+    id = req.body.id
+    await client.connect();
+    const database = client.db("users");
+    const collection = database.collection("users");
+
+    // find document that matches req.body.id
+    const result = await collection.findOne({"loginId": id}).toArray();
+
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(result);
+  } finally {
+    await client.close();
+  }
+});
+
+app.get("/getMentors", async (req, res) => {
+  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+  try {
+    await client.connect();
+    const database = client.db("users");
+    const collection = database.collection("users");
+
+    // find document that matches req.body.id
+    const result = await collection.find({"entryType": "mentor"}).toArray();
+
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(result);
+  } finally {
+    await client.close();
+  }
 });
 
 const server = http.createServer(app);
