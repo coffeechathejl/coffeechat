@@ -10,7 +10,7 @@ const UserProfile = () => {
     useEffect(() => {
       const handleCreateProfile = () => {
         const formData = {
-          "id": "ethanwhitcher",
+          "id": "hashir-sami",
           "loginId": user?.sub,
           "entryType": "student",
           "personalInfo": {
@@ -65,7 +65,7 @@ const UserProfile = () => {
     }, [user, isAuthenticated, isLoading]);
 
     if (isLoading) {
-      return <div>Loading...</div>;
+      return <div>Loading LinkedIn Information...</div>;
     }
 
     if (!isAuthenticated) {
@@ -81,16 +81,10 @@ const UserProfile = () => {
             <h2>Profile</h2>
             <button onClick={() => logout({ returnTo: window.location.origin } as LogoutOptions)}>Log Out</button><br /><br />
             <h1>{profileData["firstName"]} {profileData["lastName"]}</h1>
-            {Object.keys(profileData).map((key, index) => {
-              return (
-                <div key={index}>
-                  <p>{key}: {profileData[key]}</p>
-                </div>
-              );
-            })}
+            {JSON.stringify(profileData, null, 2)}
            </> 
         ) : (
-          <p>Loading...</p>
+          <p>Getting profile data..</p>
         )}
       </>
     );

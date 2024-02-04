@@ -79,10 +79,17 @@ app.post("/createProfileEntry", jsonParser, async (req, res) => {
         if (!documentToInsert) {
             return res.status(400).json({ error: 'Bad Request. Missing document data.' });
         }
+        const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        const database = client.db("users");
+        const collection = database.collection("users");
 
-        const result = await insertDocument(documentToInsert);
+        let result = await insertDocument(documentToInsert);
+        
+        console.log(result)
 
-        res.status(200).send(result);
+        const fin = await collection.findOne({"loginId": data.loginId});
+
+        res.status(200).send(fin);
 
     } catch (error) {
         console.error('Error inserting document:', error);
@@ -113,7 +120,7 @@ app.get("/getProfileEntry", jsonParser, async (req, res) => {
   }
 );
 
-app.get("/getProfileEntry", jsonParser, async (req, res) => {
+app.get("/getMentorList", jsonParser, async (req, res) => {
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     const database = client.db("users");
     const collection = database.collection("users");
