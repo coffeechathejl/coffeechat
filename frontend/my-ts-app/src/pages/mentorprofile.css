@@ -4,9 +4,8 @@
 }
 
 .column1 {
-    flex: 0 0 27%;
+    flex: 0 27%;
     background-color: #1E1E1E; /* Set your background color */
-    padding: 20px;
 }
 
 .column2 {
@@ -15,13 +14,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 5%;
+    padding-top: 2%;
 
 }
 
 /* Optional: Add some styling to the columns */
 .column {
-    margin-right: 20px; /* Adjust the margin between columns */
+    margin-right: 4em; /* Adjust the margin between columns */
     margin-left: 2em;
 }
 
@@ -39,9 +38,18 @@
     border-radius: 50%;
 }
   
+.personal-profile {
+    background-color: #5E5145;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    border-radius: 35px; /* Adjust the value to control the roundness */
+    
+}
+
 .personal-profile-text {
     color: white;
-    padding-left: 30%;
+    padding-left: 20%;
+    padding-bottom: 2em;
 }
 
 h1 {
@@ -64,8 +72,15 @@ h4 {
     margin-top: 0.5em;
 }
 
+h5 {
+    font-weight: normal;
+    margin-bottom: 0.3em;
+    margin-top: 0.3em;
+}
+
 .mentor-info {
     background-color: #FFF5E5;
+    color: black;
     width: 100%;
     border-radius: 35px; /* Adjust the value to control the roundness */
     padding-left: 4em;
@@ -101,9 +116,8 @@ h4 {
     background-color: #44352F;
     width: 100%;
     border-radius: 35px; /* Adjust the value to control the roundness */
-    padding-left: 4em;
-    padding: 1em;
-    padding: 1em;
+    padding-left: 3em;
+    margin-bottom: 1em;
 }
 
 .mentor-experience-content {
@@ -113,6 +127,7 @@ h4 {
 .experience-info {
     display: flex;
     flex-direction: row;
+    margin-bottom: 1em;
 }
 
 .job-picture {
@@ -125,7 +140,17 @@ h4 {
 }
 
 .job-info {
-    flex: 1;
     padding-left: 2em;
     padding-right: 2em;
+    padding-top: 0em;
+}
+
+.left-panel {
+    height: 100%;
+}
+
+.mentor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Optional: align items vertically */
 }
