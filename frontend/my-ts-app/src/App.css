@@ -27,3 +27,9 @@
   background-color: #5E5145;
   border: none;
 }
+
+#loading {
+  font-size: 25px;
+  text-align: center;
+  margin-top: 25%;
+}

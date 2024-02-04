@@ -9,7 +9,7 @@ type FormProps = {};
   export default function Form() {
     const [linkedinUrl, setLinkedinUrl] = useState('');
     const [entryType, setEntryType] = useState<'Student' | 'Mentor'>('Student');
-    const [pronouns, setPronouns] = useState<'She/Her' | 'He/Him' | 'They/Them' | 'Ask me about my Pronouns'>('She/Her');
+    const [pronouns, setPronouns] = useState<'She/Her' | 'He/Him' | 'They/Them' | 'Ask me'>('She/Her');
     const [gender, setGender] = useState<'Female Identifying' | 'Male Identifying' | 'Nonbinary' | 'Prefer not to disclose'>('Female Identifying');
     const [genderMatch, setGenderMatch] = useState<'Female Identifying' | 'Male Identifying' | 'Nonbinary' | 'Prefer not to disclose'>('Female Identifying');
     const [areaOfInterest, setAreaOfInterest] = useState<'Computer Science' | 'Engineering' | 'Chemistry' | 'Biology' |'Sociology' |'Political Science'>('Computer Science');
@@ -78,6 +78,7 @@ type FormProps = {};
 
       <form onSubmit={handleSubmit}>
       <div className="form-container">
+        <h2>Just one more thing..</h2>
         <label>
           LinkedIn URL:‎ ‎ ‎ ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  
           <input type="text" value={linkedinUrl} onChange={(e) => setLinkedinUrl(e.target.value)} />
@@ -94,12 +95,12 @@ type FormProps = {};
       
 
         <label>
-          Pronouns:‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  
-          <select value={pronouns} onChange={(e) => setPronouns(e.target.value as 'She/Her' | 'He/Him' | 'They/Them' | 'Ask me about my Pronouns')}>
+          Pronouns: ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  
+          <select value={pronouns} onChange={(e) => setPronouns(e.target.value as 'She/Her' | 'He/Him' | 'They/Them' | 'Ask me')}>
             <option value="She/Her">She/Her</option>
             <option value="He/Him">He/Him</option>
             <option value="They/Them">They/Them</option>
-            <option value="Ask me about my Pronouns">Ask me about my Pronouns</option>
+            <option value="Ask me">Ask me</option>
           </select>
         </label>
 
@@ -114,7 +115,7 @@ type FormProps = {};
         </label>
 
         <label>
-          Preferred Gender for Match:‎ 
+          Preferred Gender Match:‎ ‎ ‎ ‎ ‎ ‎ 
           <select value={genderMatch} onChange={(e) => setGenderMatch(e.target.value as 'Female Identifying' | 'Male Identifying' | 'Nonbinary' | 'Prefer not to disclose')}>
             <option value="Female Identifying">Female identifying</option>
             <option value="Male Identifying">Male identifying</option>
@@ -149,7 +150,7 @@ type FormProps = {};
           GitHub:‎ ‎ ‎ ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎ ‎   
           <input type="text" value={github} onChange={(e) => setGithub(e.target.value)} />
         </label>
-        <button className="submit-button" type="submit" >let's get started</button>
+        <button type="submit" >Get Started!</button>
         </div>
       </form>
     
