@@ -1,0 +1,131 @@
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.column1 {
+    flex: 0 0 27%;
+    background-color: #1E1E1E; /* Set your background color */
+    padding: 20px;
+}
+
+.column2 {
+    flex: 1;
+    background-color: #1E1E1E; /* Set your background color */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5%;
+
+}
+
+/* Optional: Add some styling to the columns */
+.column {
+    margin-right: 20px; /* Adjust the margin between columns */
+    margin-left: 2em;
+}
+
+.profile-picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 3em;
+}
+  
+.profile-picture img {
+    width: 50%;
+    height: 50%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+  
+.personal-profile-text {
+    color: white;
+    padding-left: 30%;
+}
+
+h1 {
+    margin-bottom: 0.1em;
+    margin-top: 0.1em;
+
+
+}
+
+h3 {
+    font-weight: normal;
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+
+}
+
+h4 {
+    font-weight: normal;
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+}
+
+.mentor-info {
+    background-color: #FFF5E5;
+    width: 100%;
+    border-radius: 35px; /* Adjust the value to control the roundness */
+    padding-left: 4em;
+    padding: 1em;
+    padding: 1em;
+    margin-bottom: 1.5em;
+}
+
+.mentor-content {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.1em;
+}
+
+.mentor-content-image {
+    flex: 0 0 27%;
+}
+
+.mentor-content-image img {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.mentor-content-text {
+    flex: 1;
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+.mentor-experience {
+    background-color: #44352F;
+    width: 100%;
+    border-radius: 35px; /* Adjust the value to control the roundness */
+    padding-left: 4em;
+    padding: 1em;
+    padding: 1em;
+}
+
+.mentor-experience-content {
+    color: white
+}
+
+.experience-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.job-picture {
+    flex: 0 0 10%;
+}
+
+.job-picture img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.job-info {
+    flex: 1;
+    padding-left: 2em;
+    padding-right: 2em;
+}
