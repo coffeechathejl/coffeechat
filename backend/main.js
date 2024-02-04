@@ -1,5 +1,6 @@
 const http = require("http");
 const express = require("express");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const { spawn } = require("child_process");
 const { MongoClient } = require("mongodb");
@@ -11,6 +12,7 @@ const uri = process.env.MONGO_URI;
 const jsonParser = bodyParser.json();
 
 const app = express();
+app.use(cors()); 
 
 async function insertDocument(documentToInsert) {
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -43,7 +45,9 @@ app.post("/createProfileEntry", jsonParser, async (req, res) => {
     "contactInfo": {},
   }
   */
-  const name = req.body.id;
+  const data = req.body;
+  console.log(data);
+  const name = data.id;
 
   // Spawn the Python script with arguments
   // process.env.PYTHONPATH = "/opt/local/bin/python3"
@@ -63,10 +67,10 @@ app.post("/createProfileEntry", jsonParser, async (req, res) => {
       responseData = JSON.parse(responseData);
 
       // add body data to responseData
-      responseData.personalInfo = req.body.personalInfo;
-      responseData.contactInfo = req.body.contactInfo;
-      responseData.entryType = req.body.entryType;
-      responseData.loginId = req.body.loginId;
+      responseData.personalInfo = data.personalInfo;
+      responseData.contactInfo = data.contactInfo;
+      responseData.entryType = data.entryType;
+      responseData.loginId = data.loginId;
 
       res.setHeader('Content-Type', 'application/json');
 
@@ -79,7 +83,7 @@ app.post("/createProfileEntry", jsonParser, async (req, res) => {
 
         const result = await insertDocument(documentToInsert);
 
-        res.status(201).json({ message: 'Document inserted successfully', insertedId: result.insertedId });
+        res.status(200).send(result);
 
     } catch (error) {
         console.error('Error inserting document:', error);
@@ -96,43 +100,32 @@ app.post("/createProfileEntry", jsonParser, async (req, res) => {
   });
 });
 
-app.get("/getProfileEntry", async (req, res) => {
+app.get("/getProfileEntry", jsonParser, async (req, res) => {
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
-  try {
-    id = req.body.id
-    await client.connect();
+    id = req.query.id
     const database = client.db("users");
     const collection = database.collection("users");
 
     // find document that matches req.body.id
-    const result = await collection.findOne({"loginId": id}).toArray();
+    const result = await collection.findOne({"loginId": id});
 
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(result);
-  } finally {
-    await client.close();
+    res.status(200).send(result);
   }
-});
+);
 
-app.get("/getMentors", async (req, res) => {
+app.get("/getProfileEntry", jsonParser, async (req, res) => {
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
-  try {
-    await client.connect();
     const database = client.db("users");
     const collection = database.collection("users");
 
     // find document that matches req.body.id
-    const result = await collection.find({"entryType": "mentor"}).toArray();
+    const result = collection.find({"entryType": "mentor"});
 
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(result);
-  } finally {
-    await client.close();
+    res.status(200).send(result);
   }
-});
-
+);
 const server = http.createServer(app);
 
 server.listen(port, hostname, () => {
