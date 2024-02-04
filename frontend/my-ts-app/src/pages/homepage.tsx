@@ -1,13 +1,21 @@
-import Button from "../_components/button/button";
-import "../_components/button/button.css";
 import "../pages/homepage.css";
 import peoplewebpImage from "../assets/people.webp";
+import { useAuth0 } from "@auth0/auth0-react";
 
-type HomePageProps = {
-    onClick: () => void
-}
 
-export default function HomePage({ onClick }: HomePageProps ) {
+export default function HomePage() {
+    const { loginWithRedirect } = useAuth0();
+
+    const handleLogin = () => {
+      // Specify the correct redirect_uri property to control where the user is redirected after login
+      loginWithRedirect(
+          {
+              authorizationParams: {
+                redirect_uri: 'http://localhost:5173/profile'
+              }
+          }
+      );
+    };
     return (
         <div>
             <svg className="coffeelogo"
@@ -66,7 +74,7 @@ export default function HomePage({ onClick }: HomePageProps ) {
                 <br/>
                 one sip at a time
             </div>
-            <Button className='login-button' onClick={onClick} />
+            <button className='login-button' onClick={handleLogin}>Log In</button>
             <svg className="circlelogo"
             width="500" 
             height="500" 

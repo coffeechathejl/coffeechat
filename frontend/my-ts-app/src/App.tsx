@@ -1,20 +1,17 @@
-import { useState } from 'react'
 import './App.css'
-import './index.css'
-import Button from './_components/button/button'
-import HomePage from './pages/homepage'
-import Dropdown from './_components/form/form'
-import Form from './_components/form/form'
-import FormPage from './pages/formpage'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Home from './pages/homepage'
+import Profile from './pages/profile'
 
 function App() {
-
-
-  return (
-    <div>
-      <FormPage />
-    </div>
-  )
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route index element={<Home />} />
+                <Route path="profile" element={<Profile />} />
+            </Routes>
+        </BrowserRouter>
+    )
 }
 
 export default App
