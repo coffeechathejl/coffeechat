@@ -17,17 +17,17 @@ type FormProps = {};
     const [phoneNumber, setPhoneNumber] = useState('');
     const [github, setGithub] = useState('');
 
-    const [profileData, setProfileData] = useState(null);
+    const [profileData] = useState(null);
     
 
     const handleSubmit = async (event: React.FormEvent) => {
       event.preventDefault();
 
-      //const urlParams = new URLSearchParams(window.location.search);
-      //const receivedVariable = urlParams.get('variable');
+      const urlParams = new URLSearchParams(window.location.search);
+      const receivedVariable = urlParams.get('variable');
         const newFormData = {
-          "id": "ethanwhitcher",
-          //"loginId": receivedVariable,
+          "id": linkedinUrl,
+          "loginId": receivedVariable,
           "entryType": entryType, // Assuming userType is a state variable
           "personalInfo": {
             "pronouns": pronouns, // Assuming pronouns is a state variable
@@ -36,7 +36,6 @@ type FormProps = {};
             "areaOfInterest": areaOfInterest // Assuming areaOfInterest is a state variable
           },
           "contactInfo": {
-            "linkedinUrl": linkedinUrl, // Assuming linkedinUrl is a state variable
             "email": email, // Assuming email is a state variable
             "phoneNumber": phoneNumber, // Assuming phoneNumber is a state variable
             "github": github // Assuming github is a state variable
@@ -46,9 +45,9 @@ type FormProps = {};
   
         try {
           axios.post("http://127.0.0.1:3000/createProfileEntry", newFormData)
-            .then(response => {
-            // Update state with the response data
-              setProfileData(response.data);
+            .then(() => {
+              // Update state with the response data
+              window.location.href = "/profile";
           })
           .catch(error => {
             // Handle the error response here
@@ -57,9 +56,7 @@ type FormProps = {};
         } catch (error) {
           console.log(error)
         }
-  
-
-
+        
 
     }
 
@@ -83,7 +80,7 @@ type FormProps = {};
       <div className="form-container">
         <label>
           LinkedIn URL:‎ ‎ ‎ ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  ‎ ‎ ‎  
-          <input type="url" value={linkedinUrl} onChange={(e) => setLinkedinUrl(e.target.value)} />
+          <input type="text" value={linkedinUrl} onChange={(e) => setLinkedinUrl(e.target.value)} />
         </label>
        
 

@@ -47,9 +47,9 @@ const UserProfile = () => {
           const output = response.data;
           if (output === "") {
           // If profile entry doesn't exist, create it
-            //const uid = user?.sub;
-            //window.location.href = `/form?variable=${uid}`;
-            window.location.href = `/form`;
+            const uid = user?.sub;
+            window.location.href = `/form?variable=${uid}`;
+            // window.location.href = `/form`;
             // handleCreateProfile();
           } else {
             // Update state with the existing profile data
