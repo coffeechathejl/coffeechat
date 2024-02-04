@@ -1,67 +1,99 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { LogoutOptions, useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
 
 const UserProfile = () => {
   const { user, isAuthenticated, isLoading, logout } = useAuth0();
-  const navigate = useNavigate();
+  const [profileData, setProfileData] = useState(null);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!isAuthenticated) {
-    // redirect to home page if not authenticated
-    navigate("/");
-  }
-
-  else {
-      // axios get requests
-      axios.get("http://127.0.0.1:3000/getProfileEntry", {
-        params: {
-          id: user.sub
-        }
-      })
-      .then(response => {
-         // Handle the successful response here
-         const output = response.data;
-         if (output === "") {
-           // POST REQUEST HERE
-            const formData = {
-              "id": "hashir-sami",
-              "loginId": "linkedin|XqGnuQXGzV",
-              "entryType": "student",
-              "personalInfo": {
-                  "pronouns": "he/him",
-                  "gender": "male",
-                  "genderMatch": null,
-                  "areaOfInterest": "Computer Science"
-              },
-              "contactInfo": {
-                  "email": "yoloswag22@gmail.com",
-                  "phoneNumber": "4168400891",
-                  "github": "hashir103"
-              }
-            }
-            axios.post("http://127.0.0.1:3000/createProfileEntry", formData)
-              .then(response => {console.log(response.data)});
+    useEffect(() => {
+      const handleCreateProfile = () => {
+        const formData = {
+          "id": "ethanwhitcher",
+          "loginId": user?.sub,
+          "entryType": "student",
+          "personalInfo": {
+              "pronouns": "he/him",
+              "gender": "male",
+              "genderMatch": null,
+              "areaOfInterest": "Computer Science"
+          },
+          "contactInfo": {
+              "email": "yoloswag22@gmail.com",
+              "phoneNumber": "4168400891",
+              "github": "hashir103"
           }
-            else {
-          // iterate through response.data to display user data
-            console.log(output);
+        };
+
+        axios.post("http://127.0.0.1:3000/createProfileEntry", formData)
+          .then(response => {
+            // Update state with the response data
+            setProfileData(response.data);
+          })
+          .catch(error => {
+            // Handle the error response here
+            console.error("Error creating profile entry:", error);
+          });
+      };
+
+      const handleGetProfile = () => {
+        axios.get("http://127.0.0.1:3000/getProfileEntry", {
+          params: {
+            id: user.sub
           }
-    })
-    .catch(error => {
-      // Handle the error response here
-      console.log(error);
-    });
+        })
+        .then(response => {
+          const output = response.data;
+          if (output === "") {
+            // If profile entry doesn't exist, create it
+            handleCreateProfile();
+          } else {
+            // Update state with the existing profile data
+            setProfileData(output);
+          }
+        })
+        .catch(error => {
+          // Handle the error response here
+          console.error("Error getting profile entry:", error);
+        });
+      };
+
+      if (!isLoading && isAuthenticated) {
+        handleGetProfile();
+      }
+    }, [user, isAuthenticated, isLoading]);
+
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+
+    if (!isAuthenticated) {
+      // redirect to home page if not authenticated
+      return null;
+    }
+
+    return (
+      <>
+        {/* Render individual properties dynamically */}
+        {profileData ? (
+          <>
+            <h2>Profile</h2>
+            <button onClick={() => logout({ returnTo: window.location.origin } as LogoutOptions)}>Log Out</button><br /><br />
+            <h1>{profileData["firstName"]} {profileData["lastName"]}</h1>
+            {Object.keys(profileData).map((key, index) => {
+              return (
+                <div key={index}>
+                  <p>{key}: {profileData[key]}</p>
+                </div>
+              );
+            })}
+           </> 
+        ) : (
+          <p>Loading...</p>
+        )}
+      </>
+    );
   }
 
-return (
-  <>
-    <button onClick={() => logout({ returnTo: window.location.origin } as LogoutOptions)}>Log Out</button>
-  </>
-  );
-}
-
-export default UserProfile;
+  export default UserProfile;

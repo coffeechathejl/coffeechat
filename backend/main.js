@@ -46,7 +46,6 @@ app.post("/createProfileEntry", jsonParser, async (req, res) => {
   }
   */
   const data = req.body;
-  console.log(data);
   const name = data.id;
 
   // Spawn the Python script with arguments
