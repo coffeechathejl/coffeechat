@@ -1,5 +1,6 @@
 const http = require("http");
 const express = require("express");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const { spawn } = require("child_process");
 const { MongoClient } = require("mongodb");
@@ -11,6 +12,7 @@ const uri = process.env.MONGO_URI;
 const jsonParser = bodyParser.json();
 
 const app = express();
+app.use(cors()); 
 
 async function insertDocument(documentToInsert) {
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -20,10 +22,6 @@ async function insertDocument(documentToInsert) {
       const database = client.db("users");
       const collection = database.collection("users");  
       const result = await collection.insertOne(documentToInsert);
-      if (documentToInsert.entryType === "mentor") {
-        const mentorCollection = database.collection("mentors");
-        await mentorCollection.insertOne({ mentorId: documentToInsert.public_id });
-      }
 
       console.log(`Document inserted with _id: ${result.insertedId}`);
       return result;
@@ -40,13 +38,15 @@ app.post("/createProfileEntry", jsonParser, async (req, res) => {
   /* 
   required input
   {
-    "id": "",
+    "id": "", <---- referring to the linkedin url
+    "loginId": "" <--- referring to the auth0 login
     "entryType": "",
     "personalInfo": {},
     "contactInfo": {},
   }
   */
-  const name = req.body.id;
+  const data = req.body;
+  const name = data.id;
 
   // Spawn the Python script with arguments
   // process.env.PYTHONPATH = "/opt/local/bin/python3"
@@ -66,9 +66,10 @@ app.post("/createProfileEntry", jsonParser, async (req, res) => {
       responseData = JSON.parse(responseData);
 
       // add body data to responseData
-      responseData.personalInfo = req.body.personalInfo;
-      responseData.contactInfo = req.body.contactInfo;
-      responseData.entryType = req.body.entryType;
+      responseData.personalInfo = data.personalInfo;
+      responseData.contactInfo = data.contactInfo;
+      responseData.entryType = data.entryType;
+      responseData.loginId = data.loginId;
 
       res.setHeader('Content-Type', 'application/json');
 
@@ -78,10 +79,17 @@ app.post("/createProfileEntry", jsonParser, async (req, res) => {
         if (!documentToInsert) {
             return res.status(400).json({ error: 'Bad Request. Missing document data.' });
         }
+        const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        const database = client.db("users");
+        const collection = database.collection("users");
 
-        const result = await insertDocument(documentToInsert);
+        let result = await insertDocument(documentToInsert);
+        
+        console.log(result)
 
-        res.status(201).json({ message: 'Document inserted successfully', insertedId: result.insertedId });
+        const fin = await collection.findOne({"loginId": data.loginId});
+
+        res.status(200).send(fin);
 
     } catch (error) {
         console.error('Error inserting document:', error);
@@ -98,6 +106,32 @@ app.post("/createProfileEntry", jsonParser, async (req, res) => {
   });
 });
 
+app.get("/getProfileEntry", jsonParser, async (req, res) => {
+  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    id = req.query.id
+    const database = client.db("users");
+    const collection = database.collection("users");
+
+    // find document that matches req.body.id
+    const result = await collection.findOne({"loginId": id});
+
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).send(result);
+  }
+);
+
+app.get("/getMentorList", jsonParser, async (req, res) => {
+  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    const database = client.db("users");
+    const collection = database.collection("users");
+
+    // find document that matches req.body.id
+    const result = collection.find({"entryType": "mentor"});
+
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).send(result);
+  }
+);
 const server = http.createServer(app);
 
 server.listen(port, hostname, () => {

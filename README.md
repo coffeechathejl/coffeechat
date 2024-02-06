@@ -1,30 +1,39 @@
-# Mocha Mentor
--> Pitch about Mocha Mentor (hey chat....)
+# mocha mentor
 
 ## Inspiration
--> Problem statement
--> Brief Mocha Mentor introduction
--> Mini statement about how Mocha Mentor will be revolutionary
+Our app idea brewed from a common shared stressor of networking challenges. Recognizing the lack of available mentorship and struggle to form connections effortlessly, we envisioned a platform that seamlessly paired mentors and students to foster meaningful connections.
 
 ## What it does
-Mocha Mentor is a coffee chatting matchmaking system, that pairs mentors and mentees through their LinkedIn profiles, using a sophisticated Machine Learning algorithm. 
--> Can talk about scraping linkedin data, then making the comparison
+mocha mentor is a web application that seamlessly pairs students and mentors based on their LinkedIn profiles. It analyzes user LinkedIn profiles, utilizes our dynamic backend structure and Machine Learning algorithm for accurate matching, then pairs a mentor and student together.
 
 ## How we built it
-Mocha Mentor's front end leverages -> I do not specifically know this stack
-Auth0 by Otka is used for user authentication and access to the application. -> this sounds atrocious!
-The back end leverages the Auth0 apis for generation of unique user ids, MongoDB to store the user's information, and -> lalalala
--> Need to mention the machine learning bit briefly but I do not know much about it
+mocha mentor leverages a robust tech stack to enhance the mentor-student connection. MongoDB stores and manages profiles, while an Express.js server is ran on the backend. This server also executes Python scripts which employ pandas for data manipulation and scikit-learn for our ML cosine similarity-based matching algorithm. It also utilizes the LinkedIn API for profile extraction. Our frontend was entirely built with React.js.
 
 ## Challenges we ran into
-We initially had some difficulty transforming the response from Auth0 into usable information from our backend. However, with some reconfiguration of our back-end and authorization process, we figured out how to best utilize the data. 
+The hackathon's constrained timeframe led us to prioritize essential features. Additionally, other challenges we ran into were handling asynchronous events, errors integrating the backend and frontend, working with limited documentation, and running Python scripts efficiently in JavaScript.
 
-## Accomplishments we're proud of
-Challenging ourselves to learn new frameworks and libraries, and pushing through until the very end!
+## Accomplishments that we're proud of
+We are proud of developing a complex technical project with a diverse tech stack. Our backend was well designed and saved a lot of time when integrating with the frontend. With this year's theme of "Unlocking the Future with AI", we wanted to go beyond using a GPT backend, therefore, we utilized machine learning to develop our matching algorithm.
 
 ## What we learned
-We learned a lot about the importance of good teamwork and clear division of responsibilities. 
--> we def learned some technical stuff and got to experiemtn with front end stuff for the first time. 
+- The importance of good teamwork! 
+- How to integrate Python scripts in our Express server 
+- Cosine similarities and more about AI/ML
 
-## What's next for Mocha Match
-We would love to have access to the official LinkedIn profile API so that we can securely retrieve the user's profile information. 
+## What's next for mocha mentor
+- Conduct outreach and incorporate community feedback
+- Further develop UI
+- Expand by adding additional features
+- Improve efficiency in algorithms
+
+## how to run
+1. Follow the readme.MD in backend and install required dependancies (cors, express, linkedInAPI (python 3rd party one). Note: No package.json so you'll have to keep testing the run until it works).
+2. Follow the readme.MD in frontend and install required dependancies. Vite and React required.
+
+   Backend execution:
+   cd backend
+   node main.js
+
+   Frontend execution:
+   cd frontend/my-ts-app
+   npm run dev
